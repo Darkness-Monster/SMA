@@ -1,30 +1,30 @@
+// Function to send a message
 function sendMessage() {
-    const recipient = document.getElementById("recipient").value;
-    const message = document.getElementById("message").value;
-    const sender = localStorage.getItem("username"); // Retrieve the username from local storage
+  const recipient = document.getElementById("recipient").value;
+  const message = document.getElementById("message").value;
+  const sender = localStorage.getItem("username"); // Retrieve the username from local storage
 
-    // Make a fetch request to send the message to the server
-    fetch("/send-message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sender, recipient, message }),
-    })
+  // Make a fetch request to send the message to the server
+  fetch("/send-message", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sender, recipient, message }),
+  })
     .then((response) => {
-        if (response.ok) {
-            // Clear the input fields after sending the message
-            document.getElementById("recipient").value = "";
-            document.getElementById("message").value = "";
-            // Optionally, update the UI to indicate that the message was sent
-        } else {
-            // Handle errors if any
-            console.error("Failed to send message:", response.statusText);
-        }
+      if (response.ok) {
+        // Clear the input fields after sending the message
+        document.getElementById("recipient").value = "";
+        document.getElementById("message").value = "";
+        // Optionally, update the UI to indicate that the message was sent
+      } else {
+        // Handle errors if any
+        console.error("Failed to send message:", response.statusText);
+      }
     })
     .catch((error) => {
-        console.error("Error sending message:", error);
+      console.error("Error sending message:", error);
     });
 }
-
 
 // Function to fetch and display messages
 function fetchMessages() {
@@ -46,7 +46,10 @@ function fetchMessages() {
       data.forEach((message) => {
         // Create HTML elements for each message and append to message container
         const messageElement = document.createElement("div");
-        messageElement.textContent = `${message.sender}: ${message.text}`;
+        // Ensure that message.sender and message.message exist before displaying
+        const sender = message.sender ? message.sender : "Anonymous";
+        const text = message.message ? message.message : "[Empty Message]";
+        messageElement.textContent = `${sender}: ${text}`;
         messageContainer.appendChild(messageElement);
       });
     })
