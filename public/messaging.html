@@ -1,84 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Messaging App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-        }
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+      }
 
-        #messageContainer {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            overflow-y: scroll;
-            height: 300px;
-        }
+      #messageContainer {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        overflow-y: scroll;
+        height: 300px;
+      }
 
-        #composeMessage {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-        }
+      #composeMessage {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+      }
 
-        #composeMessage input[type="text"],
-        #composeMessage textarea {
-            width: calc(100% - 20px);
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
+      #composeMessage input[type="text"],
+      #composeMessage textarea {
+        width: calc(100% - 20px);
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
 
-        #composeMessage textarea {
-            height: 100px;
-        }
+      #composeMessage textarea {
+        height: 100px;
+      }
 
-        #composeMessage button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+      #composeMessage button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
 
-        #composeMessage button:hover {
-            background-color: #0056b3;
-        }
+      #composeMessage button:hover {
+        background-color: #0056b3;
+      }
+
+      #logoutButton {
+        width: 100%;
+        padding: 10px;
+        background-color: #dc3545; /* Red color */
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      #logoutButton:hover {
+        background-color: #c82333; /* Darker red color on hover */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Messaging App</h1>
-    
+
     <div id="messageContainer">
-        <!-- Messages will be displayed here -->
+      <!-- Messages will be displayed here -->
     </div>
-    
+
     <div id="composeMessage">
-        <input type="text" id="recipient" placeholder="Recipient">
-        <textarea id="message" placeholder="Type your message"></textarea>
-        <button onclick="sendMessage()">Send</button>
+      <input type="text" id="recipient" placeholder="Recipient" />
+      <textarea id="message" placeholder="Type your message"></textarea>
+      <button onclick="sendMessage()">Send</button>
     </div>
+
+    <!-- Logout button -->
+    <button id="logoutButton" onclick="logout()">Logout</button>
 
     <script src="messaging.js"></script>
-</body>
+  </body>
 </html>

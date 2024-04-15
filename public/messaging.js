@@ -58,6 +58,12 @@ function fetchMessages() {
     });
 }
 
+// Function to handle logout
+function logout() {
+  localStorage.removeItem("username"); // Remove the username from local storage
+  window.location.href = "index.html"; // Redirect to the login page
+}
+
 // Fetch messages when the page loads
 window.addEventListener("load", fetchMessages);
 
