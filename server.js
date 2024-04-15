@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cron = require('node-cron');
 const mysql = require("mysql");
 const path = require("path");
 
@@ -110,6 +111,21 @@ app.get("/fetch-messages", (req, res) => {
       return res.status(500).send("Internal server error.");
     }
     res.status(200).json(results);
+  });
+});
+
+// Schedule a cron job to clear messages older than 5 minutes every hour
+cron.schedule('0 * * * *', () => {
+  const currentTime = new Date();
+  const fiveMinutesAgo = new Date(currentTime.getTime() - 5 * 60000); // 5 minutes ago
+
+  // Delete messages older than 5 minutes
+  db.query('DELETE FROM messages WHERE timestamp < ?', [fiveMinutesAgo], (err, result) => {
+    if (err) {
+      console.error('Error deleting messages:', err);
+      return;
+    }
+    console.log('Deleted messages older than 5 minutes:', result.affectedRows);
   });
 });
 
