@@ -1,8 +1,8 @@
 import("chai").then((chai) => {
   import("chai-http").then((chaiHttp) => {
     import("../server").then((server) => {
-      const expect = chai.expect;
 
+      const expect = chai.expect;
       chai.use(chaiHttp);
 
       describe("Server API Tests", () => {
