@@ -1,6 +1,5 @@
-Certainly! Here's the README.md written entirely in Markdown:
 
-```markdown
+```
 # Real-Time Messaging App
 
 This is a simple real-time messaging app built using **Express.js** for the server-side and **vanilla JavaScript** for the client-side.
@@ -60,5 +59,3 @@ Contributions are welcome! Please feel free to submit a pull request for any enh
 
 This project is licensed under the [MIT License](LICENSE).
 ```
-
-This Markdown text will render as a nicely formatted README.md file when viewed on platforms that support Markdown rendering.
