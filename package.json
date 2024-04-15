@@ -1,7 +1,15 @@
 {
+  "scripts": {
+    "test": "mocha server.test.js"
+  },
   "dependencies": {
     "express": "^4.19.2",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "chai-http": "^5.0.0"
   }
 }
