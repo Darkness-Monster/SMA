@@ -1,0 +1,41 @@
+Real-Time Messaging App
+This is a simple real-time messaging app built using Express.js for the server-side and vanilla JavaScript for the client-side.
+
+Features
+User Signup/Login: Users can sign up with a username and password, and then log in to access the messaging functionality.
+Real-Time Messaging: Users can send messages to each other in real-time.
+Automatic Message Fetching: The app automatically fetches new messages at regular intervals without requiring manual refresh.
+Technologies Used
+Express.js: Backend framework for handling HTTP requests and managing routes.
+MySQL: Database management system for storing user information and messages.
+Vanilla JavaScript: Frontend scripting language for dynamic interactions and AJAX requests.
+HTML/CSS: Frontend markup and styling.
+Installation
+Clone the repository:
+bash
+Copy code
+git clone <repository-url>
+cd real-time-messaging-app
+Install dependencies:
+bash
+Copy code
+npm install
+Set up MySQL database:
+
+Create a new MySQL database.
+Update the database configuration in server.js file with your database credentials.
+Run the server:
+
+bash
+Copy code
+node server.js
+Access the app in your browser at http://localhost:3000.
+Usage
+Sign up for a new account with a unique username and password.
+Log in with your username and password.
+Start sending messages to other users in real-time.
+Contributing
+Contributions are welcome! Please feel free to submit a pull request for any enhancements or bug fixes.
+
+License
+This project is licensed under the MIT License.
