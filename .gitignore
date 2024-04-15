@@ -1,5 +1,6 @@
 /index2.html
 /node_modules
+/.stryker-tmp
 # Logs
 logs
 *.log
