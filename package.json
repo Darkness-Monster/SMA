@@ -1,4 +1,7 @@
 {
+  "name": "sma-app",
+  "version": "1.0.0",
+  
   "scripts": {
     "test": "mocha server.test.js"
   },
