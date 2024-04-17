@@ -1,14 +1,14 @@
 {
   "name": "sma-app",
-  "version": "1.0.1",
-  
+  "version": "2.0.0",
   "scripts": {
     "test": "mocha server.test.js"
   },
   "dependencies": {
     "express": "^4.19.2",
     "mysql": "^2.18.1",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^8.2.6",

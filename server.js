@@ -1,27 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cron = require('node-cron');
-const mysql = require("mysql");
+const cron = require("node-cron");
+const sqlite3 = require("sqlite3").verbose(); // Import SQLite3
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Declare PORT only once
+const PORT = process.env.PORT || 3000;
 
-// MySQL Connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "sma_db",
+// SQLite3 Database Connection
+const db = new sqlite3.Database(":memory:"); // Using in-memory database for simplicity
+
+// Create users table
+db.serialize(() => {
+  db.run(
+    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)"
+  );
 });
 
-// Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL database:", err);
-    return;
-  }
-  console.log("Connected to MySQL database");
+// Create messages table
+db.serialize(() => {
+  db.run(
+    "CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY AUTOINCREMENT, sender TEXT, recipient TEXT, message TEXT, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+  );
 });
 
 // Middleware
@@ -37,45 +37,41 @@ app.post("/signup", (req, res) => {
     return res.status(400).send("Username and password are required.");
   }
   // Check if username already exists
-  db.query(
-    "SELECT * FROM users WHERE username = ?",
-    [username],
-    (err, results) => {
-      if (err) {
-        console.error("Error checking username:", err);
-        return res.status(500).send("Internal server error.");
-      }
-      if (results.length > 0) {
-        return res.status(400).send("Username already exists.");
-      }
-      // Insert new user into database
-      db.query(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        [username, password],
-        (err) => {
-          if (err) {
-            console.error("Error creating user:", err);
-            return res.status(500).send("Internal server error.");
-          }
-          res.status(200).send("Signup successful.");
-        }
-      );
+  db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
+    if (err) {
+      console.error("Error checking username:", err);
+      return res.status(500).send("Internal server error.");
     }
-  );
+    if (row) {
+      return res.status(400).send("Username already exists.");
+    }
+    // Insert new user into database
+    db.run(
+      "INSERT INTO users (username, password) VALUES (?, ?)",
+      [username, password],
+      (err) => {
+        if (err) {
+          console.error("Error creating user:", err);
+          return res.status(500).send("Internal server error.");
+        }
+        res.status(200).send("Signup successful.");
+      }
+    );
+  });
 });
 
 // Login Endpoint
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
-  db.query(
+  db.get(
     "SELECT * FROM users WHERE username = ? AND password = ?",
     [username, password],
-    (err, results) => {
+    (err, row) => {
       if (err) {
         console.error("Error checking credentials:", err);
         return res.status(500).send("Internal server error.");
       }
-      if (results.length === 0) {
+      if (!row) {
         return res.status(401).send("Invalid username or password.");
       }
       res.status(200).send("Login successful.");
@@ -85,10 +81,8 @@ app.post("/login", (req, res) => {
 
 // Send Message Endpoint
 app.post("/send-message", (req, res) => {
-  // Implementation for sending a message
   const { sender, recipient, message } = req.body;
-  // Assuming you have a 'messages' table in your database
-  db.query(
+  db.run(
     "INSERT INTO messages (sender, recipient, message) VALUES (?, ?, ?)",
     [sender, recipient, message],
     (err) => {
@@ -103,30 +97,31 @@ app.post("/send-message", (req, res) => {
 
 // Fetch Messages Endpoint
 app.get("/fetch-messages", (req, res) => {
-  // Implementation for fetching messages
-  // Assuming you have a 'messages' table in your database
-  db.query("SELECT * FROM messages", (err, results) => {
+  db.all("SELECT * FROM messages", (err, rows) => {
     if (err) {
       console.error("Error fetching messages:", err);
       return res.status(500).send("Internal server error.");
     }
-    res.status(200).json(results);
+    res.status(200).json(rows);
   });
 });
 
 // Schedule a cron job to clear messages older than 5 minutes every hour
-cron.schedule('0 * * * *', () => {
-  const currentTime = new Date();
-  const fiveMinutesAgo = new Date(currentTime.getTime() - 5 * 60000); // 5 minutes ago
+cron.schedule("0 * * * *", () => {
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60000).toISOString(); // 5 minutes ago in ISO format
 
   // Delete messages older than 5 minutes
-  db.query('DELETE FROM messages WHERE timestamp < ?', [fiveMinutesAgo], (err, result) => {
-    if (err) {
-      console.error('Error deleting messages:', err);
-      return;
+  db.run(
+    "DELETE FROM messages WHERE timestamp < ?",
+    [fiveMinutesAgo],
+    (err) => {
+      if (err) {
+        console.error("Error deleting messages:", err);
+        return;
+      }
+      console.log("Deleted messages older than 5 minutes");
     }
-    console.log('Deleted messages older than 5 minutes:', result.affectedRows);
-  });
+  );
 });
 
 // Start the server
