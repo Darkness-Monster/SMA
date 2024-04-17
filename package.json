@@ -2,7 +2,7 @@
   "name": "sma-app",
   "version": "2.0.0",
   "scripts": {
-    "test": "mocha server.test.js"
+    "test": "mocha server.test.js --reporter mochawesome"
   },
   "dependencies": {
     "express": "^4.19.2",
@@ -15,7 +15,20 @@
     "@stryker-mutator/mocha-runner": "^8.2.6",
     "chai": "^5.1.0",
     "chai-http": "4.3.0",
+    "jasmine": "^5.1.0",
+    "jasmine-html-reporter": "^0.0.7",
+    "jasmine-spec-reporter": "^7.0.0",
     "mocha": "^10.4.0",
     "mochawesome": "^7.1.3"
+  },
+  "mochawesome": {
+    "reportDir": "mochawesome-report",
+    "reportFilename": "index",
+    "reportTitle": "Mocha Test Report",
+    "reportPageTitle": "Mocha Test Report",
+    "overwrite": false,
+    "quiet": false,
+    "html": true,
+    "json": true
   }
 }

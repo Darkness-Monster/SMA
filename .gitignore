@@ -1,6 +1,8 @@
 /index2.html
 /node_modules
 /.stryker-tmp
+/mochawesome-report
+
 # Logs
 logs
 *.log
