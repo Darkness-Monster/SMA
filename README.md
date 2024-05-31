@@ -14,12 +14,12 @@ This is a simple messaging app built with HTML, CSS, JavaScript, and Node.js. It
 
 1. Clone this repository to your local machine:
    ```
-   git clone https://github.com/yourusername/messaging-app.git
+   git clone https://github.com/Darkness-Monster/SMA.git
    ```
 
 2. Navigate to the project directory:
    ```
-   cd messaging-app
+   cd SMA
    ```
 
 3. Install the dependencies:
