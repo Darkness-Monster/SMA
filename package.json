@@ -6,7 +6,7 @@
     "test": "mocha server.test.js --reporter mochawesome"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.21.1",
     "mysql": "^2.18.1",
     "node-cron": "^3.0.3",
     "sqlite3": "^5.1.7"
